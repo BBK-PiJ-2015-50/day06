@@ -1,62 +1,54 @@
 public class Matrix {
 	private int[][] matrix;
-	private final int a;
-	private final int b;
 	
 	public Matrix(int a, int b) {
 		matrix = new int[a][b];
-		this.a = a;
-		this.b = b;
-		for(int i=0; i < a; i++) {
-			for(int j=0; j < b; j++) {
+		for (int i=0; i < a; i++) {
+			for (int j=0; j < b; j++) {
 				matrix[i][j] = 1;
 			}
 		}
 	}
 	
-	public void setElement(int a, int b, int set) {
-		if(a>this.a||b>this.b) {
-			System.out.println ("invalid indices");
-			return;
+	public void setElement(int a, int b, int value) {
+		if (a < matrix.length && b < matrix[0].length) {
+			matrix[a][b] = value;
 		}
-		matrix[a][b] = set;
 	}
 	
+	
 	public void setRow(int a, String s) {
-		String[] numList = s.split(",");	
-		if(a>this.a || numList.length>this.b) {
-			System.out.println ("invalid indices");
-			return;
-		}
-		for(int i = 0; i < numList.length; i++) {
-			String num = numList[i];
-			this.matrix[a][i] = Integer.parseInt(num);
+		String[] numbers = s.split(",");	
+		if (a < matrix.length && numbers.length == matrix[0].length) {
+			for (int i = 0;i < numbers.length;i++) {
+				matrix[a][i] = Integer.parseInt(numbers[i]);
+			}
 		}
 	}
 	
 	public void setColumn(int b, String s) {
-		String[] numList = s.split(",");
-		if(numList.length>this.a || b>this.b) {
-			System.out.println ("invalid indices");
-			return;
-		}
-		for(int i = 0; i < numList.length; i++) {
-			String num = numList[i];
-			this.matrix[i][b] = Integer.parseInt(num);
+		String[] numbers = s.split(",");	
+		if (b < matrix[0].length && numbers.length == matrix.length) {
+			for (int i = 0;i < numbers.length;i++) {
+				matrix[i][b] = Integer.parseInt(numbers[i]);
+			}
 		}
 	}
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
-		for(int i = 0; i < a; i++) {
-			for(int j = 0; j < b; j++) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
 				sb.append(matrix[i][j]);
-				if(i==a-1 && j==b-1)
+				if (i == (matrix.length - 1) && j == (matrix[0].length - 1)) {
 					sb.append("]");
-				else if (j < b-1)
+				}
+				else if (j < (matrix[0].length - 1)) {
 					sb.append(",");
-				else
+				}
+				else {
 					sb.append(";");
+				}
 			}
 		}
 		return sb.toString();
@@ -64,16 +56,28 @@ public class Matrix {
 	
 	public void prettyPrint() {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < a; i++) {
-			for(int j = 0; j < b; j++) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
 				sb.append(matrix[i][j]);
-				if (j < b-1)
+				if (j < matrix[0].length - 1) {
 					sb.append("\t");
-				else
+				}
+				else if (i != (matrix.length - 1)) {
 					sb.append("\n");
+				}
 			}
 		}
-		System.out.print(sb);
+		System.out.println(sb);
+	}
+
+	public boolean checkSymmetrical() {
+		MatrixChecker check = new MatrixChecker();
+		return check.isSymmetrical(matrix);
+	}
+
+	public boolean checkTriangular() {
+		MatrixChecker check = new MatrixChecker();
+		return check.isTriangular(matrix);
 	}
 }
 
