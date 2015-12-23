@@ -1,3 +1,5 @@
+// Pair programming with Hijiri
+
 public class EmployeeList {
 	private String[] nameArray = new String[10];
 	private int[] idArray = new int[10];
